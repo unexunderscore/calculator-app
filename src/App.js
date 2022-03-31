@@ -1,6 +1,21 @@
 import './App.css';
+import { useState } from 'react';
 
 function App() {
+
+  const [number, setNumber] = useState('0');
+
+  const handleDell = () => {
+    let lastNumber = (number.length)-1
+    let newNumber = ''
+    for(let i=0; i<lastNumber; i++){
+      newNumber += number[i];
+    }
+    setNumber(newNumber);
+  }
+ 
+
+
   return (
     <div className="App">
         <div className='calc-layout'>
@@ -21,7 +36,7 @@ function App() {
         {/* SCREEN OUTPUT */}
         <div >
           
-         <input className='output-layout' type="text" value={'hey'} />
+         <input className='output-layout' type="text" value={number}/>
         </div>
          {/* ^^^^^^^^^ */}
 
@@ -30,34 +45,68 @@ function App() {
         <div className='buttons-layout'>
 
             <div className="btn-grid">
-             <div className='num-btn'>7</div>
-             <div className='num-btn'>8</div>
-             <div className='num-btn'>9</div>
+             <div className='num-btn'
+             onClick={() => setNumber(number+'7')}
+             >7</div>
+             <div className='num-btn'
+             onClick={() => setNumber(number+'8')}
+             >8</div>
+             <div className='num-btn'
+             onClick={() => setNumber(number+'9')}
+             >9</div>
              <div className='del-btn'>
-               <div>del</div></div>
+               <div
+               onClick={handleDell}
+               >del</div></div>
           
          
-             <div className='num-btn'>4</div>
-             <div className='num-btn'>5</div>
-             <div className='num-btn'>6</div>
-             <div className='num-btn'>+</div>
+             <div className='num-btn'
+             onClick={() => setNumber(number+'4')}
+             >4</div>
+             <div className='num-btn'
+             onClick={() => setNumber(number+'5')}
+             >5</div>
+             <div className='num-btn'
+             onClick={() => setNumber(number+'6')}
+             >6</div>
+             <div className='num-btn'
+             onClick={() => setNumber(number+'+')}
+             >+</div>
           
           
-             <div className='num-btn'>1</div>
-             <div className='num-btn'>2</div>
-             <div className='num-btn'>3</div>
-             <div className='num-btn'>-</div>
+             <div className='num-btn'
+             onClick={() => setNumber(number+'1')}
+             >1</div>
+             <div className='num-btn'
+             onClick={() => setNumber(number+'2')}
+             >2</div>
+             <div className='num-btn'
+             onClick={() => setNumber(number+'3')}
+             >3</div>
+             <div className='num-btn'
+             onClick={() => setNumber(number+'-')}
+             >-</div>
           
           
-             <div className='num-btn'>.</div>
-             <div className='num-btn'>0</div>
-             <div className='num-btn'>/</div>
-             <div className='num-btn'>x</div>
+             <div className='num-btn'
+             onClick={() => setNumber(number+'.')}
+             >.</div>
+             <div className='num-btn'
+             onClick={() => setNumber(number+'0')}
+             >0</div>
+             <div className='num-btn'
+             onClick={() => setNumber(number+'/')}
+             >/</div>
+             <div className='num-btn'
+             onClick={() => setNumber(number+'x')}
+             >x</div>
           
              </div>
 
           <div className='row-btns'>
-            <button className='reset-btn'>Reset</button>
+            <button className='reset-btn'
+            onClick={() => setNumber('')}
+            >Reset</button>
             <button className='eq-btn'>=</button>
           </div>
 

@@ -97,7 +97,7 @@ body{
   margin-right: 1rem;
   width: 100%;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   outline: none;
   box-sizing: border-box;
   padding-right: 2rem;
@@ -108,8 +108,8 @@ body{
 .buttons-layout{
   margin-top: 1rem;
   background-color: var(--toggle-bg);
-  border-radius: 8px;
-  padding: 2rem;
+  border-radius: 10px;
+  padding: 1.8rem;
  
 }
 
@@ -124,9 +124,9 @@ body{
   background-color: var(--key-orange);
   color: var(--text-blue);
   font-size: 32px;
-  border-radius: 8px;
+  border-radius: 10px;
   text-align: center;
-  width: 90px;
+  width: 92px;
   height: 45px;
   border-bottom: 4px solid var(--key-orange-shadow);
 }
@@ -147,10 +147,10 @@ body{
   text-transform: uppercase;
   text-align: center;
   background-color: var(--key-bg);
-  width: 90px;
+  width: 92px;
   height: 45px;
   border-bottom: 4px solid var(--key-shadow);
-  border-radius: 8px;
+  border-radius: 10px;
 }
 
 .del-btn div{
@@ -160,7 +160,7 @@ body{
 
 
 .row-btns{
- margin-top: 1rem;
+ margin-top: 1.5rem;
  display: grid;
  grid-template-columns: auto auto;
  gap: 20px;
@@ -168,27 +168,27 @@ body{
 }
 
 .reset-btn{
- font-size: 18px;
+ font-size: 20px;
  text-transform: uppercase;
- width: 205px;
+ width: 208px;
  height: 60px;
  font-weight: 700;
  color: var(--text-white);
  background-color: var(--key-bg);
  border: none;
- border-radius: 8px;
+ border-radius: 10px;
  border-bottom: 4px solid var(--key-shadow);
 }
 
 .eq-btn{
-  font-size: 18px;
-  width: 205px;
+  font-size: 20px;
+  width: 208px;
   max-height: 60px;
   font-weight: 700;
   color: var(--text-white);
   background-color: var(--key-red);
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   border-bottom: 4px solid var(--key-red-shadow);
 }
 
