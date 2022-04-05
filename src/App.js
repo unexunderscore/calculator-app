@@ -42,27 +42,51 @@ function App() {
   let number3 = '';
   let numberThirdIndex = 0;
 
-  
-  
+  let alphabet = ['a','á','é','í', 'ű', 'ó', 'ü','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w',,'y','z'];
 
- console.log("Kezdéskor: " + inputStack);
- if(inputStack.includes('x')){
-      for(let i=0; i<inputStack.length; i++){
+ console.log("Egyenlet: " + inputStack);
+
+ while(isNaN(inputStack)){
+   
+  if((inputStack.toString().includes('NaN')) === true){
+    setNumber('Malformed expression');
+    return;
+  }
+
+
+  for(let i=0; i<inputStack.length; i++){
+      
+  if(inputStack.includes('x')){
+
+    if(inputStack.includes('xx') ){
+      setNumber('Malformed expression');
+      return;
+    } 
+
         if(inputStack[i]=='x'){
           console.log("Find x operator at " + i + " index");
           operatorIndex = i;
           
           //  SELECT FIRST NUMBER
-          for(let j=operatorIndex; j>=0; j--){
-            if(inputStack[j] == 'x' || inputStack[j] == '/' || inputStack[j] == '' || inputStack[j] == '+'){
-              numberFirstIndex = j+1;
-            } else numberFirstIndex = j;
+          for(let j=operatorIndex-1; j>=0; j--){
+             console.log("First number searching: " + inputStack[j]);
+            if((inputStack[j] == 'x' || inputStack[j] == '/' || inputStack[j] == '' || inputStack[j] == '+')){
+              numberFirstIndex = j;
+              break
+            } else if(inputStack[j] == '-'){
+              numberFirstIndex = j;
+            }
+
+              numberFirstIndex = j;
+              
+            
+            
           }
 
           number1 = inputStack.slice(numberFirstIndex, operatorIndex);
           number1 = parseFloat(number1);
           console.log("First number '*' : " + number1);
-
+          
 
           //  SELECT SECOND NUMBER
           for(let k=operatorIndex+1; k<=inputStack.length-1; k++){
@@ -82,8 +106,8 @@ function App() {
           //console.log("Szeletelés előtt: " + inputStack);
           inputPart = (number1 + 'x' + number2);
           inputStack = inputStack.replace(inputPart, number3);
-          //console.log("Szeletelés után: " + inputStack);
-
+          console.log("Szeletelés után: " + inputStack);
+          console.log("Number 3 érték: "+number3);
           // Setting everything back to null
           operationCounter = 0;
           operatorIndex = '';
@@ -93,19 +117,28 @@ function App() {
           numberSecondIndex = '';
     } 
   }
-}
+
 
   if(inputStack.includes('/')){
-    for(let i=0; i<inputStack.length; i++){
+
+    if(inputStack.includes('//') ){
+      setNumber('Malformed expression');
+      return
+    } 
+
     if(inputStack[i]=='/'){
       console.log("Find / operator at " + i + " index");
       operatorIndex = i;
       
       //  SELECT FIRST NUMBER
-      for(let j=operatorIndex; j>=0; j--){
-        if(inputStack[j] == 'x' || inputStack[j] == '/' || inputStack[j] == '' || inputStack[j] == '+'){
-          numberFirstIndex = j+1;
-        } else numberFirstIndex = j;
+      for(let j=operatorIndex-1; j>=0; j--){
+             
+        if((inputStack[j] == 'x' || inputStack[j] == '/' || inputStack[j] == '-' || inputStack[j] == '+')){
+          numberFirstIndex = j;
+        } numberFirstIndex = j;
+          
+        
+        
       }
 
       number1 = inputStack.slice(numberFirstIndex, operatorIndex);
@@ -121,11 +154,18 @@ function App() {
         } else numberSecondIndex = k;}
       
      
-      number2 = inputStack.slice(operatorIndex+1, numberSecondIndex+1);
-      number2 = parseFloat(number2);
-      console.log("Second number '/' : " + number2);
-
       
+   
+
+      if(operatorIndex !== 0){
+        number2 = inputStack.slice(operatorIndex+1, numberSecondIndex+1);
+        number2 = parseFloat(number2);
+      } else {
+        number1 = inputStack.slice(operatorIndex, numberSecondIndex+1);
+      }
+
+     
+      console.log("Second number '/' : " + number2);
 
       number3 = (number1 / number2);
 
@@ -133,8 +173,8 @@ function App() {
       //console.log("Szeletelés előtt: " + inputStack);
       inputPart = (number1 + '/' + number2);
       inputStack = inputStack.replace(inputPart, number3);
-      //console.log("Szeletelés után: " + inputStack);
-
+      console.log("Szeletelés után: " + inputStack);
+      console.log("Number 3 érték: "+number3);
       // Setting everything back to null
       operationCounter = 0;
       operatorIndex = '';
@@ -143,12 +183,19 @@ function App() {
       number2 = '';
       numberSecondIndex = '';
 
-      }
-    } 
-  }
+      
 
-  if(inputStack.includes('+')){
-    for(let i=0; i<inputStack.length; i++){
+    } 
+  
+}
+}
+  for(let i=0; i<inputStack.length; i++){
+  
+    if(inputStack.includes('++') ){
+      setNumber('Malformed expression');
+      return
+    }
+
     if(inputStack[i]=='+'){
       console.log("Find + operator at " + i + " index");
       operatorIndex = i;
@@ -159,9 +206,10 @@ function App() {
           numberFirstIndex = j+1;
         } else numberFirstIndex = j;
       }
-
-      number1 = inputStack.slice(numberFirstIndex, operatorIndex);
-      number1 = parseFloat(number1);
+      
+        number1 = inputStack.slice(numberFirstIndex, operatorIndex);
+        number1 = parseFloat(number1);
+     
       console.log("First number '+' : " + number1);
      
 
@@ -172,19 +220,22 @@ function App() {
             operationCounter++;
         } else numberSecondIndex = k;}
       
-     
+     if(operatorIndex !== 0){
       number2 = inputStack.slice(operatorIndex+1, numberSecondIndex+1);
       number2 = parseFloat(number2);
+    } else {
+      number1 = inputStack.slice(operatorIndex, numberSecondIndex+1);
+    }
       console.log("Second number '+' : " + number2);
 
-
+      
       number3 = (number1 + number2);
 
       //console.log("Szeletelés előtt: " + inputStack);
       inputPart = (number1 + '+' + number2);
       inputStack = inputStack.replace(inputPart, number3);
-      //console.log("Szeletelés után: " + inputStack);
-
+      console.log("Szeletelés után: " + inputStack);
+      console.log("Number 3 érték: "+number3);
       // Setting everything back to null
       operationCounter = 0;
       operatorIndex = '';
@@ -194,12 +245,8 @@ function App() {
       numberSecondIndex = '';
 
       }
-    }
-  }
+    
 
-
-  if(inputStack.includes('-')){
-    for(let i=0; i<inputStack.length; i++){
     if(inputStack[i]=='-'){
       console.log("Find - operator at " + i + " index");
       operatorIndex = i;
@@ -223,19 +270,29 @@ function App() {
             operationCounter++;
         } else numberSecondIndex = k;}
       
+        if(operatorIndex !== 0){
+          number2 = inputStack.slice(operatorIndex+1, numberSecondIndex+1);
+          number2 = parseFloat(number2);
+        } else {
+          number1 = inputStack.slice(operatorIndex, numberSecondIndex+1);
+        }
+
      
-      number2 = inputStack.slice(operatorIndex+1, numberSecondIndex+1);
-      number2 = parseFloat(number2);
       console.log("Second number '-' : " + number2);
 
-
+      if(inputStack=== '--'){
+        setNumber('Malformed expression');
+        return
+      } 
+      else {
       number3 = (number1 - number2);
+      }
 
       //console.log("Szeletelés előtt: " + inputStack);
       inputPart = (number1 + '-' + number2);
       inputStack = inputStack.replace(inputPart, number3);
-      //console.log("Szeletelés után: " + inputStack);
-
+      console.log("Szeletelés után: " + inputStack);
+      console.log("Number 3 érték: "+number3);
       // Setting everything back to null
       operationCounter = 0;
       operatorIndex = '';
@@ -245,12 +302,27 @@ function App() {
       numberSecondIndex = '';
 
       }
-    }
+    
   }
 
+
+
+    //if(isNaN(number3)){
+    //  break;
+   // }
+    
+   // inputStack = parseFloat(inputStack);
+   
+   //// if((inputStack.toString().includes(alphabet)) === true){
+   //   setNumber('Malformed expression');
+   //   return;
+  //  }
+
+ }
   result = number3; 
-  console.log('Result: '+ result)
-  setNumber(result);
+  console.log('Result: '+ result);
+  console.log('***************************');
+  //setNumber(result);
 }
 
 
