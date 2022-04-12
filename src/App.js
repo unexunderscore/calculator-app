@@ -1,22 +1,29 @@
 import './App.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
+
+function useKey(key, cb) {
+  const callbackRef = useRef(cb);
+
+    useEffect(() => {
+      callbackRef.current = cb;
+    });
+
+    useEffect(() => {
+      function handle(event){
+        if (event.code === key) {
+          callbackRef.current(event);
+        }
+      }
+      document.addEventListener("keydown", handle);
+      return () => document.removeEventListener("keydown", handle);
+    }, [key]);
+
+}
 
 function App() {
 
   const [number, setNumber] = useState('');
-
-  const [checked, setChecked] = useState(() => {
-    // getting stored value
-
-      const saved = localStorage.getItem("checked");
-      const initialValue = JSON.parse(saved);
-      if(initialValue == null){
-        return true;
-      }
-      return initialValue;
-
-  });;
 
   const [theme, setTheme] = useState(() => {
     // getting stored value
@@ -25,16 +32,10 @@ function App() {
     return initialValue || 'first';
   });;
 
-
   useEffect(() => {
     // storing last used theme
     localStorage.setItem('theme', JSON.stringify(theme));
   }, [theme]);
-
- useEffect(() => {
-    // storing last used switch
-    localStorage.setItem('checked', JSON.stringify(checked));
-  }, [checked]);
 
 
   const handleDell = () => {
@@ -52,6 +53,7 @@ function App() {
     setNumber(newNumber);
   }
 
+
   function parse(str) {
     return Function(`'use strict'; return (${str})`)()
   }
@@ -59,20 +61,25 @@ function App() {
   const calcMath = () => {
 
      let inputStack = number;
-
-      if(inputStack.includes('x') || inputStack.includes('++') || inputStack.includes('//') || inputStack.includes('..') || inputStack === '--' || inputStack === '+' 
+     const regExtext = /[a-zA-Z]/g;
+    
+      if(regExtext.test(inputStack) || inputStack.includes('--') || inputStack.includes('x') || inputStack.includes('++') || inputStack.includes('//') || inputStack.includes('..') || inputStack === '--' || inputStack === '+' 
       || inputStack === '*' || inputStack === '/' || inputStack === '-' || inputStack === '.'){
         setNumber('Malformed expression');
       } else {
 
      let result = parse(inputStack);
-     setNumber(result);
+    setNumber(result);
+     
     }
 }
 
+    const getTheme = () => JSON.parse(localStorage.getItem("theme"));
+    console.log(localStorage.getItem("theme"));
 
-
-
+    useKey("Enter", calcMath)
+    useKey("NumpadEnter", calcMath)
+    
   return (
     
     <div className="App" data-theme={theme}>
@@ -84,36 +91,43 @@ function App() {
                   <div className='themeTitle'>
                     theme
                   </div>
-                  <div className='radioContainer'>
+                  
+                  <div className='radioContainer switchContainer'>
 
-                    <input type="radio" id={`firstTheme`} value={1} name='tss'
-                    onChange={(e) => setChecked(e.target.checked)}
+                    <input type="radio" id={`firstTheme`} value="first" name='tss'
+                    defaultChecked={getTheme() === "first"}
+        
                     onClick={() => setTheme('first')}
                     />
                     <label
                       className="firstTheme"
                       htmlFor={`firstTheme`}
                     >1</label>
-                     <input type="radio" id={`secondTheme`} value={2} name='tss'
-                     onChange={(e) => setChecked(e.target.checked)}
-                     onClick={() => setTheme('second')}
+                    
+                     <input type="radio" id={`secondTheme`} value="second" name='tss'
+                     defaultChecked={getTheme() ==="second"}
+                 
+                     onClick={() => setTheme('second') }
+                     
                      />
                     <label
                       className="secondTheme"
                       htmlFor={`secondTheme`}
                     >2</label>
-                     <input type="radio" id={`thirdTheme`} value={3} name='tss'
-                     onChange={(e) => setChecked(e.target.checked)}
+                     <input type="radio" id={`thirdTheme`} value="third" name='tss'
+                     defaultChecked={getTheme() === "third"}
+                    
                      onClick={() => setTheme('third')}
-                     
                      />
                     <label
                       className="thirdTheme"
                       htmlFor={`thirdTheme`}
                     >3</label>
+                    <span className="slider"></span>
                   </div>
                 </div>
           </div>
+
           {/* ^^^^^^^^^ */}
 
         {/* SCREEN OUTPUT */}
@@ -193,7 +207,9 @@ function App() {
             <button className='reset-btn'
             onClick={() => setNumber('')}
             >Reset</button>
-            <button className='eq-btn'
+            <button 
+            type="submit"
+            className='eq-btn'
             onClick={calcMath}
             
            

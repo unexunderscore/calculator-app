@@ -113,6 +113,7 @@ body, html {
 
 .calc-title{
   font-size: 32px;
+  
 }
 
 .output-layout{
@@ -253,20 +254,82 @@ body, html {
 .firstTheme{
   position: absolute;
   top: -1rem;
-  left: 0.5rem;
+  left: 0.1rem;
   font-size: 12px;
 }
 
 .secondTheme{
   position: absolute;
   top: -1rem;
-  left: 1.8rem;
+  left: 1.4rem;
   font-size: 12px;
 }
 
 .thirdTheme{
   position: absolute;
   top: -1rem;
-  left: 3.2rem;
+  left: 2.8rem;
   font-size: 12px;
+}
+
+
+.switchContainer input {
+  display: none;
+}
+
+.switchContainer label {
+  cursor: pointer;
+  height: 130%;
+  position: absolute;
+  text-align: center;
+  top: -1rem;
+  width: 1.1rem;
+  z-index: 100;
+}
+
+
+.themeSwitchContainer {
+  align-items: flex-end;
+  display: flex;
+  gap: 1rem;
+}
+
+
+.switchContainer {
+  margin-bottom: -.5rem;
+  position: relative;
+}
+
+.slider {
+  background-color: var(--toggle-bg);
+  border-radius: 25px;
+  display: inline-block;
+  height: 1.5rem;
+  position: relative;
+  width: 4rem;
+}
+
+.slider::before {
+  background-color: var(--key-red);
+  border-radius: 50%;
+  content: "";
+  height: 1rem;
+  margin-inline: .25rem;
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  transition: all ease .3s;
+  width: 1rem;
+}
+
+#firstTheme:checked ~ .slider::before {
+  transform: translate(0, -50%);
+}
+
+#secondTheme:checked ~ .slider::before {
+  transform: translate(1.2rem, -50%);
+}
+
+#thirdTheme:checked ~ .slider::before {
+  transform: translate(2.5rem, -50%);
 }
